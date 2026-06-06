@@ -100,17 +100,10 @@ Client Application
 Custom Watchtower SDK
        │
        ▼
-Express API Server
-       │
-       ├── API Key Validation
-       ├── Event Processing
-       └── Socket.io Broadcast
-       │
-       ▼
-PostgreSQL Database
-       │
-       ▼
-Next.js Dashboard
+Express API Server ──(Real-time via Socket.io)──► Next.js Dashboard
+       │                                                 ▲
+       ▼                                                 │
+PostgreSQL Database ───────(Initial Fetch via API)────────┘
 ```
 
 ---
@@ -121,15 +114,15 @@ Next.js Dashboard
 watchtower/
 │
 ├── apps/
-│   ├── api/
-│   └── dashboard/
+│   ├── api/          # Express API server with Prisma & WebSockets
+│   └── dashboard/    # Next.js Telemetry Analytics UI
 │
 ├── packages/
-│   └── sdk/
+│   ├── sdk/          # Client-side integration tracker
+│   └── shared/       # Shared types and utilities
 │
-├── turbo.json
-├── pnpm-workspace.yaml
-└── package.json
+├── turbo.json        # Turborepo build pipeline configuration
+└── package.json      # Root dependencies and workspaces
 ```
 
 ---
@@ -155,32 +148,32 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 
 ## 🚀 Local Development
 
-### Clone the repository
+## 🚀 Local Development
+
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/watchtower.git
+git clone https://github.com/ferda-zeynep/watchtower.git
 cd watchtower
 ```
 
-### Install dependencies
+### 2. Install dependencies
 
 ```bash
-pnpm install
+npm install
 ```
 
-### Run database migrations
+### 3. Run database migrations
 
 ```bash
-pnpm prisma migrate dev
+npx prisma migrate dev
 ```
 
-### Start development servers
+### 4. Start development servers
 
 ```bash
-pnpm dev
+npm run dev
 ```
-
----
 
 ## 🎯 Why I Built This
 
@@ -216,3 +209,7 @@ The project helped me gain practical experience with:
 ## 📄 License
 
 MIT License
+
+```
+
+```
