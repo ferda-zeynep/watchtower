@@ -1,0 +1,14 @@
+{
+  "name": "watchtower-monorepo",
+  "packageManager": "pnpm@11.5.1",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "tsconfig-paths": "^4.2.0",
+    "turbo": "^2.0.0"
+  }
+}
