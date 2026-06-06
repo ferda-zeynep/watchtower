@@ -1,42 +1,21 @@
-import {
-  WatchtowerEventType,
-  WatchtowerEventPayload,
-} from "@watchtower/shared";
+export interface WatchtowerEventPayload {
+  message: string;
+  stack?: string;
+  timestamp: number;
+}
+
 import { sendEvent } from "../core/transport";
 
 export const initErrorCollector = (projectKey: string, apiUrl: string) => {
-  if (typeof window === "undefined") {
-    console.log(
-      "ℹ️ Watchtower SDK running in Node.js environment. Skipping browser listeners.",
-    );
-    return;
-  }
+  if (typeof window === "undefined") return;
 
-  window.onerror = (message, url, line, col, error) => {
+  window.addEventListener("error", (event) => {
     const payload: WatchtowerEventPayload = {
-      projectKey,
-      type: WatchtowerEventType.JAVASCRIPT_ERROR,
-      message: error?.message || String(message),
-      stack: error?.stack,
-      url: window.location.href,
-      userAgent: navigator.userAgent,
-      timestamp: new Date().toISOString(),
+      message: event.message,
+      stack: event.error?.stack,
+      timestamp: Date.now(),
     };
 
-    sendEvent(`${apiUrl}/api/events`, payload);
-  };
-
-  window.addEventListener("unhandledrejection", (event) => {
-    const payload: WatchtowerEventPayload = {
-      projectKey,
-      type: WatchtowerEventType.UNHANDLED_PROMISE,
-      message: event.reason?.message || String(event.reason),
-      stack: event.reason?.stack,
-      url: window.location.href,
-      userAgent: navigator.userAgent,
-      timestamp: new Date().toISOString(),
-    };
-
-    sendEvent(`${apiUrl}/api/events`, payload);
+    (sendEvent as any)("ERROR", payload, projectKey, apiUrl);
   });
 };
