@@ -1,6 +1,5 @@
 {
   "name": "watchtower-monorepo",
-  "packageManager": "pnpm@11.5.1",
   "version": "1.0.0",
   "private": true,
   "scripts": {
