@@ -2,16 +2,14 @@
   "name": "watchtower-monorepo",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build"
+    "dev": "next dev apps/dashboard",
+    "build": "next build apps/dashboard",
+    "start": "next start apps/dashboard"
   },
-  "devDependencies": {
-    "tsconfig-paths": "^4.2.0",
-    "turbo": "^2.0.0"
+  "dependencies": {
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18"
   }
 }

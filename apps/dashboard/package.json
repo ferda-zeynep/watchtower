@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,7 +13,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@watchtower/sdk": "workspace:*",
     "next": "^16.2.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
