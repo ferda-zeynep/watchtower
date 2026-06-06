@@ -53,8 +53,10 @@ export default function DashboardPage() {
         id: "1",
         projectKey: "ECOMMERCE-APP",
         type: "JAVASCRIPT_ERROR",
-        message: "Uncaught TypeError: Cannot read properties of undefined (reading 'map')",
-        stack: "TypeError: Cannot read properties of undefined (reading 'map')\n    at ProductGrid (Grid.tsx:24:12)\n    at renderWithHooks (react-dom.development.js:16305:18)",
+        message:
+          "Uncaught TypeError: Cannot read properties of undefined (reading 'map')",
+        stack:
+          "TypeError: Cannot read properties of undefined (reading 'map')\n    at ProductGrid (Grid.tsx:24:12)\n    at renderWithHooks (react-dom.development.js:16305:18)",
         url: "https://shop.watchtower.dev/products",
         timestamp: new Date(Date.now() - 60000 * 5).toISOString(),
       },
@@ -62,8 +64,10 @@ export default function DashboardPage() {
         id: "2",
         projectKey: "AUTH-SERVICE",
         type: "UNHANDLED_PROMISE",
-        message: "UnhandledPromiseRejection: API request timed out after 5000ms",
-        stack: "Error: API request timed out\n    at Timeout._onTimeout (index.js:43:11)\n    at listOnTimeout (internal/timers.js:557:17)",
+        message:
+          "UnhandledPromiseRejection: API request timed out after 5000ms",
+        stack:
+          "Error: API request timed out\n    at Timeout._onTimeout (index.js:43:11)\n    at listOnTimeout (internal/timers.js:557:17)",
         url: "https://auth.watchtower.dev/v1/login",
         timestamp: new Date(Date.now() - 60000 * 12).toISOString(),
       },
@@ -71,10 +75,11 @@ export default function DashboardPage() {
         id: "3",
         projectKey: "ECOMMERCE-APP",
         type: "WARNING",
-        message: "React Detector: Duplicate keys detected in item list iteration.",
+        message:
+          "React Detector: Duplicate keys detected in item list iteration.",
         url: "https://shop.watchtower.dev/cart",
         timestamp: new Date(Date.now() - 60000 * 20).toISOString(),
-      }
+      },
     ];
     setEvents(initialEvents);
 
@@ -84,9 +89,9 @@ export default function DashboardPage() {
         "Database dynamic pool connection constraint reached.",
         "Failed to load resource: the server responded with a status of 404",
         "Performance trace threshold exceeded on dashboard compilation route",
-        "WebSocket connection handshaking dropped prematurely due to internal network state"
+        "WebSocket connection handshaking dropped prematurely due to internal network state",
       ];
-      
+
       const randomType = types[Math.floor(Math.random() * types.length)];
       const randomMsg = messages[Math.floor(Math.random() * messages.length)];
       const streamEvent = createMockEvent(randomType, randomMsg);
@@ -105,7 +110,8 @@ export default function DashboardPage() {
       projectKey: "MANUAL-TRIGGER-APP",
       type: "CRITICAL",
       message: `Real-Time UI telemetry event dispatched successfully #${Date.now().toString().slice(-4)}`,
-      stack: "Error: Manual telemetry test routine executed.\n    at HTMLButtonElement.onClick (page.tsx:112:34)",
+      stack:
+        "Error: Manual telemetry test routine executed.\n    at HTMLButtonElement.onClick (page.tsx:112:34)",
       url: "https://watchtower-jt43.vercel.app/dashboard",
       timestamp: new Date().toISOString(),
     };
@@ -505,4 +511,189 @@ export default function DashboardPage() {
 
       <div
         style={{
-          backgroundColor: theme.cardBg
+          backgroundColor: theme.cardBg,
+          padding: "2rem",
+          borderRadius: "8px",
+          border: `1px solid ${theme.border}`,
+          marginBottom: "2rem",
+          boxShadow: "0 1px 2px rgba(0,0,0,0.05)",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "1.125rem",
+            fontWeight: "bold",
+            color: theme.text,
+            margin: "0 0 1.5rem 0",
+          }}
+        >
+          Events Timeline Analytics
+        </h2>
+        <div style={{ width: "100%", height: 260 }}>
+          <ResponsiveContainer>
+            <LineChart
+              data={chartData}
+              margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke={isDarkMode ? "#374151" : "#f3f4f6"}
+              />
+              <XAxis
+                dataKey="time"
+                stroke="#9ca3af"
+                style={{ fontSize: "12px" }}
+              />
+              <YAxis
+                stroke="#9ca3af"
+                allowDecimals={false}
+                style={{ fontSize: "12px" }}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: theme.cardBg,
+                  borderRadius: "6px",
+                  border: `1px solid ${theme.border}`,
+                  color: theme.text,
+                }}
+              />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="Errors"
+                stroke="#ef4444"
+                strokeWidth={3}
+                activeDot={{ r: 8 }}
+                dot={{ r: 4 }}
+              />
+              <Line
+                type="monotone"
+                dataKey="Warnings"
+                stroke="#f59e0b"
+                strokeWidth={3}
+                dot={{ r: 4 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div style={{ marginBottom: "2rem" }}>
+        <button
+          onClick={triggerManualUpdate}
+          style={{
+            padding: "0.6rem 1.2rem",
+            backgroundColor: "#ef4444",
+            color: "#fff",
+            border: "none",
+            borderRadius: "6px",
+            fontWeight: "bold",
+            cursor: "pointer",
+            boxShadow: "0 2px 4px rgba(239, 68, 68, 0.2)",
+          }}
+        >
+          ⚡ Test Real-Time Update
+        </button>
+      </div>
+
+      {loading ? (
+        <p>Loading incident logs...</p>
+      ) : filteredEvents.length === 0 ? (
+        <p style={{ color: theme.textMuted }}>
+          No telemetry events found matching the criteria.
+        </p>
+      ) : (
+        <div style={{ display: "grid", gap: "1rem" }}>
+          {filteredEvents.map((event) => {
+            const badgeStyle = getBadgeStyles(event.type);
+            return (
+              <div
+                key={event.id}
+                style={{
+                  backgroundColor: theme.cardBg,
+                  border: `1px solid ${theme.border}`,
+                  borderRadius: "8px",
+                  padding: "1.5rem",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "0.875rem",
+                      padding: "0.25rem 0.5rem",
+                      borderRadius: "4px",
+                      ...badgeStyle,
+                    }}
+                  >
+                    {event.type}
+                  </span>
+                  <span style={{ fontSize: "0.875rem", color: "#9ca3af" }}>
+                    {event.timestamp
+                      ? new Date(event.timestamp).toLocaleString()
+                      : "N/A"}
+                  </span>
+                </div>
+
+                <h3 style={{ color: theme.text, margin: "1rem 0 0.5rem 0" }}>
+                  {event.message}
+                </h3>
+
+                <div style={{ fontSize: "0.875rem", color: theme.textMuted }}>
+                  <strong>Project:</strong> {event.projectKey} |{" "}
+                  <strong>URL:</strong> {event.url || "N/A"}
+                </div>
+
+                {event.stack && (
+                  <pre
+                    style={{
+                      backgroundColor: isDarkMode ? "#374151" : "#f3f4f6",
+                      padding: "1rem",
+                      borderRadius: "6px",
+                      overflowX: "auto",
+                      fontSize: "0.875rem",
+                      color: isDarkMode ? "#e5e7eb" : "#374151",
+                      marginTop: "1rem",
+                      border: `1px solid ${theme.border}`,
+                      whiteSpace: "pre-wrap",
+                    }}
+                  >
+                    {String(event.stack)}
+                  </pre>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {toastMessage && (
+        <div
+          style={{
+            position: "fixed",
+            bottom: "2rem",
+            right: "2rem",
+            backgroundColor: "#1f2937",
+            color: "#fff",
+            padding: "1rem 1.5rem",
+            borderRadius: "8px",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+            fontSize: "0.875rem",
+            fontWeight: "bold",
+            zIndex: 9999,
+            borderLeft: "4px solid #ef4444",
+          }}
+        >
+          {toastMessage}
+        </div>
+      )}
+    </div>
+  );
+}
