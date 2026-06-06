@@ -13,7 +13,7 @@ Watchtower captures frontend runtime errors, warnings, and custom events through
 
 ## 🚀 Live Demo
 
-🌐 Live Dashboard: Coming Soon
+🌐 Live Dashboard: https://watchtower-jt43.vercel.app/
 
 ---
 
